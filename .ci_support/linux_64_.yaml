@@ -1,0 +1,37 @@
+boost_cpp:
+- 1.70.0
+c_compiler:
+- gcc
+c_compiler_version:
+- '7'
+channel_sources:
+- conda-forge,defaults
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- gxx
+cxx_compiler_version:
+- '7'
+docker_image:
+- condaforge/linux-anvil-comp7
+jpeg:
+- '9'
+libpng:
+- '1.6'
+libtiff:
+- 4.1.0
+pin_run_as_build:
+  boost-cpp:
+    max_pin: x.x.x
+  jpeg:
+    max_pin: x
+  libpng:
+    max_pin: x.x
+  libtiff:
+    max_pin: x
+  zlib:
+    max_pin: x.x
+target_platform:
+- linux-64
+zlib:
+- '1.2'
