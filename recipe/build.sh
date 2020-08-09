@@ -8,7 +8,7 @@
     --without-x \
     --without-openexr \
     --without-libsdl \
-    COMPILED_BY="conda"
+    COMPILED_BY="conda-forge"
 
 make -j${CPU_COUNT}
 make install
