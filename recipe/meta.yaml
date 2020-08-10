@@ -10,7 +10,7 @@ source:
   sha256: 53d11ebd2972fc452af168a00eb83aefb61387662c10784e81b63e44aa575de4
 
 build:
-  number: 2
+  number: 3
   skip: true  # [not linux]
 
 requirements:
@@ -20,13 +20,13 @@ requirements:
     - automake
     - make
   host:
-    - boost-cpp
+    - boost-cpp =1.72.0
     - libpng
     - jpeg
     - libtiff
     - zlib
   run:
-    - {{ pin_compatible('boost-cpp') }}
+    - boost-cpp =1.72.0
 
 test:
   commands:
