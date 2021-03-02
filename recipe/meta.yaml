@@ -1,5 +1,5 @@
 {% set name = "povray" %}
-{% set version = "3.7.0.8" %}
+{% set version = "3.8.0-x.10064738" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://github.com/POV-Ray/{{ name }}/archive/v{{ version }}.tar.gz
-  sha256: 53d11ebd2972fc452af168a00eb83aefb61387662c10784e81b63e44aa575de4
+  sha256: c334d5a67e8d87afdc9808a37f27ee2e0bd251775dfe07fae659adb21f1d01c5
 
 build:
-  number: 4
+  number: 0
   skip: true  # [not linux]
 
 requirements:
@@ -36,7 +36,7 @@ about:
   home: http://www.povray.org
   license: AGPL-3.0-only
   license_file: LICENSE
-  summary: 'The Persistence of Vision Raytracer'
+  summary: The Persistence of Vision Raytracer
 
   description: |
     The Persistence of Vision Raytracer is a high-quality, Free Software 
