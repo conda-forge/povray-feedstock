@@ -1,11 +1,11 @@
-About povray
-============
+About povray-feedstock
+======================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/povray-feedstock/blob/main/LICENSE.txt)
 
 Home: http://www.povray.org
 
 Package license: AGPL-3.0-only
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/povray-feedstock/blob/main/LICENSE.txt)
 
 Summary: The Persistence of Vision Raytracer
 
