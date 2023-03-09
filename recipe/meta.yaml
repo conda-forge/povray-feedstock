@@ -10,7 +10,7 @@ source:
   sha256: 53d11ebd2972fc452af168a00eb83aefb61387662c10784e81b63e44aa575de4
 
 build:
-  number: 6
+  number: 7
   skip: true  # [not linux]
 
 requirements:
@@ -22,7 +22,7 @@ requirements:
   host:
     - boost-cpp =1.72.0
     - libpng
-    - jpeg
+    - libjpeg-turbo
     - libtiff
     - zlib
   run:
