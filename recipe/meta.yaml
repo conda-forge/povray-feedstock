@@ -10,7 +10,7 @@ source:
   sha256: 53d11ebd2972fc452af168a00eb83aefb61387662c10784e81b63e44aa575de4
 
 build:
-  number: 9
+  number: 10
   skip: true  # [not linux]
 
 requirements:
@@ -20,13 +20,12 @@ requirements:
     - automake
     - make
   host:
-    - boost-cpp =1.72.0
+    - libboost-devel
     - libpng
     - libjpeg-turbo
     - libtiff
     - zlib
   run:
-    - boost-cpp =1.72.0
 
 test:
   commands:
