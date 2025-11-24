@@ -1,5 +1,5 @@
 {% set name = "povray" %}
-{% set version = "3.7.0.8" %}
+{% set version = "3.7.0.10" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://github.com/POV-Ray/{{ name }}/archive/v{{ version }}.tar.gz
-  sha256: 53d11ebd2972fc452af168a00eb83aefb61387662c10784e81b63e44aa575de4
+  sha256: 7bee83d9296b98b7956eb94210cf30aa5c1bbeada8ef6b93bb52228bbc83abff
 
 build:
-  number: 13
+  number: 0
   skip: true  # [not linux]
 
 requirements:
