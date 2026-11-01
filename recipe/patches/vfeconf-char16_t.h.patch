@@ -1,0 +1,28 @@
+# Fix compilation with libc++ >= 19 (Xcode 16.3+): libc++ has no
+# std::char_traits<unsigned short>, so switch these declarations to
+# char16_t / std::u16string. The matching
+# -DPOVMSUCS2=char16_t -DUCS2=char16_t -DUCS4=char32_t CPPFLAGS are set in
+# build.sh.
+# Origin: FreeBSD ports, graphics/povray37 (patch-vfe_vfeconf.h):
+#   https://github.com/freebsd/freebsd-ports/commit/6133473e4227abbfcf023bea6ab5eeed9c17e55b
+# Also applied by Homebrew (on_sequoia and newer):
+#   https://github.com/Homebrew/homebrew-core/blob/master/Formula/p/povray.rb
+--- a/vfe/vfeconf.h
++++ b/vfe/vfeconf.h
+@@ -61,12 +61,12 @@ namespace vfe
+   int vfe_POVMS_Sys_QueueSend(POVMS_Sys_QueueNode *q, void *p, int l) ;
+   int Allow_File_Write (const char *Filename, const unsigned int FileType);
+   int Allow_File_Read (const char *Filename, const unsigned int FileType);
+-  int Allow_File_Read (const unsigned short *Filename, const unsigned int FileType);
+-  int Allow_File_Write (const unsigned short *Filename, const unsigned int FileType);
++  int Allow_File_Read (const char16_t *Filename, const unsigned int FileType);
++  int Allow_File_Write (const char16_t *Filename, const unsigned int FileType);
+   POVMS_Sys_Thread_Type POVMS_GetCurrentThread();
+   void vfeAssert (const char *message, const char *filename, int line) ;
+-  FILE *vfeFOpen (const std::basic_string<unsigned short>& name, const char *mode);
+-  bool vfeRemove (const std::basic_string<unsigned short>& name);
++  FILE *vfeFOpen (const std::u16string& name, const char *mode);
++  bool vfeRemove (const std::u16string& name);
+ 
+ #if defined _DEBUG
+   void *vfe_POVMS_Sys_Malloc(size_t size, const char *func, const char *file, int line) ;

@@ -11,16 +11,36 @@ package:
 source:
   url: https://github.com/POV-Ray/${{ name }}/archive/v${{ version }}.tar.gz
   sha256: 7bee83d9296b98b7956eb94210cf30aa5c1bbeada8ef6b93bb52228bbc83abff
+  patches:
+    # osx-only fixes, adapted from FreeBSD ports (graphics/povray37) and
+    # Homebrew (Formula/p/povray.rb); see the header of each patch for links:
+    # - https://github.com/freebsd/freebsd-ports/commit/6133473e4227abbfcf023bea6ab5eeed9c17e55b
+    # - https://github.com/Homebrew/homebrew-core/blob/master/Formula/p/povray.rb
+    # - https://github.com/POV-Ray/povray/issues/479
+    # libc++ has no std::char_traits<unsigned short>, so the UCS2/UCS4 string
+    # types are built on char16_t/char32_t instead (CPPFLAGS in build.sh).
+    # TARGET_OS_MAC is no longer defined by recent macOS SDKs, which makes
+    # the Fixed typedef clash with MacTypes.h.
+    - if: osx
+      then:
+        - patches/vfe-char16_t.cpp.patch
+        - patches/vfeconf-char16_t.h.patch
+        - patches/truetype-mactypes.patch
+        # osx-arm64 is cross-compiled from osx-64 on CI (build != host);
+        # upstream's configure fails then: AC_RUN_IFELSE-based checks never
+        # pass when cross-compiling
+        - patches/configure-cross-compile.patch
 
 build:
-  number: 2
-  skip: not linux
+  number: 3
+  skip: win
 
 requirements:
   build:
     - ${{ compiler('c') }}
     - ${{ stdlib("c") }}
     - ${{ compiler('cxx') }}
+    - autoconf
     - automake
     - make
   host:

@@ -1,0 +1,17 @@
+# Workaround for Xcode 16.3+: TARGET_OS_MAC is no longer defined by recent
+# macOS SDKs, so the local "typedef int Fixed" clashes with MacTypes.h.
+# Origin: Homebrew:
+#   https://github.com/Homebrew/homebrew-core/blob/master/Formula/p/povray.rb
+# Upstream issue: https://github.com/POV-Ray/povray/issues/479
+--- a/source/backend/shape/truetype.cpp
++++ b/source/backend/shape/truetype.cpp
+@@ -117,9 +117,9 @@ typedef short FWord;
+ typedef unsigned short uFWord;
+ 
+-#if !defined(TARGET_OS_MAC)
++#if !defined(__MACTYPES__)
+ typedef int Fixed;
+ #endif
+ 
+ typedef struct
+ {

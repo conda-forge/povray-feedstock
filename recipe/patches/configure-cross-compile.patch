@@ -1,0 +1,69 @@
+# Allow cross-compilation (e.g. osx-64 -> osx-arm64 on conda-forge, where
+# build != host and configure sets cross_compiling=yes):
+# - upstream checks boost::thread usability with AC_RUN_IFELSE, whose
+#   cross-compiling branch (marked FIXME upstream) never sets
+#   boost_thread_links, so configure aborts with
+#   "cannot link with the boost thread library". The test program only
+#   constructs a boost::mutex, so a link test (AC_LINK_IFELSE) is enough.
+# - AX_CHECK_LIB / AX_CHECK_LIBJPEG / AX_CHECK_LIBTIFF print
+#   "cross-compiling, forced" for the version check but never set their
+#   result variable to "ok", so configure aborts with e.g.
+#   "cannot find a suitable ZLIB library". Force the result to "ok" when
+#   cross-compiling (the libraries were already found by the link/header
+#   checks above).
+# Origin: fixes for the FIXME / cross-compiling branches in upstream
+#   https://github.com/POV-Ray/povray/blob/v3.7.0.10/unix/configure.ac
+#   https://github.com/POV-Ray/povray/blob/v3.7.0.10/unix/config/ax_check_lib.m4
+--- a/unix/configure.ac
++++ b/unix/configure.ac
+@@ -333,7 +333,7 @@
+ do
+   LIBS=$SAVED_LIBS
+   LIBS="$LIBS $extralib"
+-  AC_RUN_IFELSE([
++  AC_LINK_IFELSE([
+     AC_LANG_PROGRAM([[
+       #include <boost/thread/thread.hpp>
+     ]],[[
+@@ -345,8 +345,6 @@
+     AC_MSG_RESULT([yes])
+     BOOST_THREAD_LIB="$BOOST_THREAD_LIB $extralib"
+     boost_thread_links=1
+-  ],,[
+-    AC_MSG_RESULT([cross-compiling])  # FIXME
+   ])
+   if test $boost_thread_links = '1'; then
+     break
+--- a/unix/config/ax_check_lib.m4
++++ b/unix/config/ax_check_lib.m4
+@@ -62,7 +62,7 @@
+               ax_check_lib="unknown"
+               AC_MSG_RESULT([$ax_check_lib])
+             ],
+-            [AC_MSG_RESULT([cross-compiling, forced])]
++            [ax_check_lib="ok"; AC_MSG_RESULT([cross-compiling, forced])]
+           )  # AC_RUN_IFELSE
+         ],
+         [ax_check_lib="no headers"]
+--- a/unix/config/ax_check_libjpeg.m4
++++ b/unix/config/ax_check_libjpeg.m4
+@@ -66,7 +66,7 @@
+               ax_check_libjpeg="unknown"
+               AC_MSG_RESULT([$ax_check_libjpeg])
+             ],
+-            [AC_MSG_RESULT([cross-compiling, forced])]
++            [ax_check_libjpeg="ok"; AC_MSG_RESULT([cross-compiling, forced])]
+           )  # AC_RUN_IFELSE
+         ],
+         [ax_check_libjpeg="no headers"]
+--- a/unix/config/ax_check_libtiff.m4
++++ b/unix/config/ax_check_libtiff.m4
+@@ -70,7 +70,7 @@
+               ax_check_libtiff="unknown"
+               AC_MSG_RESULT([$ax_check_libtiff])
+             ],
+-            [AC_MSG_RESULT([cross-compiling, forced])]
++            [ax_check_libtiff="ok"; AC_MSG_RESULT([cross-compiling, forced])]
+           )  # AC_RUN_IFELSE
+         ],
+         [ax_check_libtiff="no headers"]
